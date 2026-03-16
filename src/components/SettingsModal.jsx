@@ -1,0 +1,62 @@
+import { X, Key } from 'lucide-react';
+import { useState } from 'react';
+
+export default function SettingsModal({ isOpen, onClose, apiKeys, setApiKeys }) {
+    const [localKeys, setLocalKeys] = useState(apiKeys);
+
+    if (!isOpen) return null;
+
+    const handleSave = () => {
+        setApiKeys(localKeys);
+        onClose();
+    };
+
+    return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={onClose}
+            />
+            <div className="relative glass-card border border-white/20 p-6 md:p-8 w-full max-w-md shadow-[0_0_40px_rgba(176,38,255,0.15)] animate-[scaleIn_0.2s_ease-out]">
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 p-2 text-white/50 hover:text-white transition-colors"
+                >
+                    <X className="w-5 h-5" />
+                </button>
+
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-neon-purple/20 rounded-lg text-neon-purple shadow-[0_0_10px_rgba(176,38,255,0.4)]">
+                        <Key className="w-5 h-5" />
+                    </div>
+                    <h2 className="text-xl font-bold">API Settings</h2>
+                </div>
+
+                <div className="space-y-5">
+                    <div className="bg-neon-blue/10 border border-neon-blue/30 rounded-xl p-4 text-center">
+                        <p className="text-white/80 font-medium">Ключи больше не нужны!</p>
+                        <p className="text-white/50 text-sm mt-2">Приложение теперь использует бесплатную сеть Pollinations.ai для генерации изображений напрямую.</p>
+                    </div>
+                </div>
+
+                <div className="mt-8">
+                    <button
+                        onClick={handleSave}
+                        className="w-full py-3 bg-gradient-to-r from-neon-purple to-neon-blue rounded-xl font-medium text-white shadow-lg shadow-neon-purple/25 hover:shadow-neon-purple/40 transition-all hover:-translate-y-0.5"
+                    >
+                        Понятно
+                    </button>
+                    <p className="text-xs text-center text-white/40 mt-4">
+                        Приятного пользования!
+                    </p>
+                </div>
+            </div>
+            <style jsx="true">{`
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
+        </div>
+    );
+}
